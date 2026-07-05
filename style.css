@@ -71,6 +71,9 @@
     --race_choice_tooltip_top: 0px;
     --race_choice_tooltip_left: 0px;
 
+    --height_choice_tooltip_top: 0px;
+    --height_choice_tooltip_left: 0px;
+
     --character_race_tooltip_top: 0px;
     --character_race_tooltip_left: 0px;
 
@@ -296,25 +299,51 @@ input[type=checkbox], input[type=radio] {
         background-image: var(--background_gradient);
         font-size: 18px;
     }
-    #hero_creation_panel_first_row div {
-        position: absolute;
-        width: 360px;;
-        left: 10px;
-    }
 
     #hero_creation_panel_name {
         position: absolute;
         top: 100px;
+        left: 24px;
+    }
+    #hero_creation_name_field {
+        position: absolute;
+        left: 24px;
+        width: 156px;
+        text-align: center;
     }
 
     #hero_creation_panel_age_selection {
         position: absolute;
         top: 150px;
+        left: 24px;
     }
 
     #hero_creation_panel_height_selection {
         position: absolute;
-        top: 200px;
+        top: 270px;
+        left: 24px;
+    }
+
+    #age_selection, #height_selection {
+        top: 20px;
+        left: 20px;
+        position: absolute;
+        z-index: 1;
+    }
+        .height_selection_button:hover .height_choice_tooltip {
+            display: block;
+        }
+            .height_choice_tooltip {
+                top: var(--height_choice_tooltip_top);
+                left: var(--height_choice_tooltip_left);
+                max-width: max-content;
+            }
+    #age_selection > div, #height_selection > div {
+        width: 160px;
+        text-align: center;
+        border: 1px solid gray;
+        margin: 5px;
+        padding: 1px;
     }
 
     #hero_creation_panel_race_selection {
@@ -349,7 +378,7 @@ input[type=checkbox], input[type=radio] {
         }
 
             .race_selection_button {
-                width: 180px;
+                width: 170px;
                 border: 2px solid gray;
                 margin-left: 10px;
                 margin-top: 5px;
@@ -834,7 +863,8 @@ input[type=checkbox], input[type=radio] {
 	width: fit-content;
 }
 
-.item_tooltip, .job_tooltip, .location_tooltip, .recipe_tooltip, #export_button_tooltip, .race_choice_tooltip, .character_race_tooltip, .character_height_tooltip {
+.item_tooltip, .job_tooltip, .location_tooltip, .recipe_tooltip, #export_button_tooltip, 
+.race_choice_tooltip, .height_choice_tooltip, .character_race_tooltip, .character_height_tooltip  {
 	display: none;
 	text-align: left;
 	color: white;
@@ -1626,8 +1656,8 @@ i {
 	cursor: pointer;
 }
 
-.activable_buttons {
-	display: flex;
+.flex_wrap {
+    display: flex;
 	flex-wrap: wrap;
 }
 
@@ -1646,7 +1676,8 @@ i {
 }
 
 .character_control_button:hover, .inventory_control_button:hover, 
-.trader_category_button:hover, .storage_category_button:hover, .trader_sorting_button:hover, .storage_sorting_button:hover, .active_selection_button, .race_selection_button_active, .character_sorting_button:hover {
+.trader_category_button:hover, .storage_category_button:hover, .trader_sorting_button:hover, .storage_sorting_button:hover, .active_selection_button, 
+.race_selection_button_active, .character_sorting_button:hover {
 	background-color: var(--active_button_color) !important;
 	background-image: none;
 }

@@ -5440,7 +5440,7 @@ function fill_character_bio() {
     height_div.innerText = translationManager.getText(language, "height") + ": "+ translationManager.getText(language, character.personal.height);
 
     if(config.use_height_bonuses && Object.keys(height_stats[character.personal.height]).length > 0) {
-        height_div.appendChild(create_height_tooltip(height_stats[character.personal.height], "character_height_tooltip"));
+        height_div.appendChild(create_height_tooltip(character.personal.height, "character_height_tooltip"));
     }
 
     const race_div = document.getElementById("character_race_div");
@@ -5491,7 +5491,8 @@ function create_race_tooltip(race, css_class) {
     return tooltip;
 }
 
-function create_height_tooltip(stats, css_class) {
+function create_height_tooltip(height_key, css_class) {
+    const stats = height_stats[height_key];
     const tooltip = document.createElement("div");
     tooltip.classList.add(css_class);
 
@@ -5804,6 +5805,6 @@ export {
     set_HTML,
     set_light_based_background_color,
     unassign_dynamic_loot_message,
-    fill_character_bio, create_race_tooltip,
+    fill_character_bio, create_race_tooltip, create_height_tooltip,
     insert_HTML
 }

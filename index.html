@@ -77,20 +77,20 @@
                         <input type = "text" id = "hero_creation_name_field" value="Hero"> 
                     </div>
                     <div id = "hero_creation_panel_height_selection">
-                        <label for="height_select" data-translation="ui height selection"></label><br>
-                        <select id="height_select">
-                            <option data-translation="ui short" value="short"></option>
-                            <option data-translation="ui average height" selected="selected" value="average"></option>
-                            <option data-translation="ui tall" value="tall"></option>
-                        </select>  
+                        <div data-translation="ui height selection"></div>
+                        <div id="height_selection" class="activable_buttons">
+                            <div class="height_selection_button" data-translation="ui short" data-height="short"></div>
+                            <div class="height_selection_button active_selection_button" data-translation="ui average height" data-height="average" class="active_selection_button"></div>
+                            <div class="height_selection_button" data-translation="ui tall" data-height="tall"></div>
+                        </div> 
                     </div>
                     <div id = "hero_creation_panel_age_selection">
-                        <label for="age_select" data-translation="ui age selection"></label><br>
-                        <select id="age_select">
-                            <option data-translation="ui young" value="young"></option>
-                            <option data-translation="ui adult" value="adult"></option>
-                            <option data-translation="ui middle aged" value="middle_aged"></option>
-                        </select>
+                        <div data-translation="ui age selection"></div>
+                        <div id="age_selection" class="activable_buttons">
+                            <div data-translation="ui young" data-age="young"></div>
+                            <div data-translation="ui adult" data-age="adult" class="active_selection_button"></div>
+                            <div data-translation="ui middle aged" data-age="middle aged"></div>
+                        </div>
                     </div>
                 </div>
                 <div id = "hero_creation_panel_race_selection">
@@ -180,12 +180,12 @@
                     <div id = "money_div">  </div>
                     <div id = "inventory_content_div"> </div>
 
-                    <div id = "inventory_sorting_div" class="activable_buttons">
+                    <div id = "inventory_sorting_div" class="activable_buttons flex_wrap">
                         <div id = "inventory_sort_by_name" class = "character_sorting_button active_selection_button" onclick='sortCharacterInventory("name")' data-translation="ui sort name"></div>
                         <div id = "inventory_sort_by_price" class = "character_sorting_button" onclick='sortCharacterInventory("price")' data-translation="ui sort value"></div>
                         <div id = "inventory_sort_by_type" class = "character_sorting_button" onclick='sortCharacterInventory("type")' data-translation="ui sort type"></div>
                     </div>
-                    <div id = "inventory_control_div" class="activable_buttons">
+                    <div id = "inventory_control_div" class="activable_buttons flex_wrap">
                         <div id = "inventory_show_all" class = "inventory_control_button active_selection_button" onclick = "showAllItems()" data-translation="ui show all"></div>
                         <div id = "inventory_show_equipment" class = "inventory_control_button" onclick = "showOnlyEquipment()" data-translation="ui show equipment"></div>
                         <div id = "inventory_show_consumable" class = "inventory_control_button" onclick = "showOnlyConsumables()" data-translation="ui show usable"></div>
@@ -227,7 +227,7 @@
                     </div>
                 </div>
 
-                <div id = "inventory_combat_switch_selection" class="activable_buttons box_div">
+                <div id = "inventory_combat_switch_selection" class="activable_buttons box_div flex_wrap">
                     <div id="switch_to_inventory" class="active_selection_button" onclick="switchToInventory()">Inventory
                     </div>
                     <div id="switch_to_combat" onclick="switchToCombat()">Combat</div>
@@ -623,12 +623,12 @@
                     </div>
 
                     <div id = "trade_div">
-                        <div id = "trader_sorting_buttons" class="activable_buttons"> 
+                        <div id = "trader_sorting_buttons" class="activable_buttons flex_wrap"> 
                             <div id = "trader_sort_by_name" class = "trader_sorting_button active_selection_button" onclick='sortTraderInventory("name")' data-translation="ui sort name"></div>
                             <div id = "trader_sort_by_price" class = "trader_sorting_button" onclick='sortTraderInventory("price")' data-translation="ui sort value"></div>
                             <div id = "trader_sort_by_type" class = "trader_sorting_button" onclick='sortTraderInventory("type")' data-translation="ui sort type"></div>
                         </div>
-                        <div id = "trader_category_buttons" class="activable_buttons">
+                        <div id = "trader_category_buttons" class="activable_buttons flex_wrap">
                             <div id = "trader_category_all" class = "trader_category_button active_selection_button" onclick='showAllTraderItems()'>
                                 all
                             </div>
@@ -672,12 +672,12 @@
                     </div>
 
                     <div id = "storage_div">
-                        <div id = "storage_sorting_buttons" class="activable_buttons"> 
+                        <div id = "storage_sorting_buttons" class="activable_buttons flex_wrap"> 
                             <div id = "storage_sort_by_name" class = "storage_sorting_button active_selection_button" onclick='sortStorageInventory("name")' data-translation="ui sort name"></div>
                             <div id = "storage_sort_by_price" class = "storage_sorting_button" onclick='sortStorageInventory("price")' data-translation="ui sort value"></div>
                             <div id = "storage_sort_by_type" class = "storage_sorting_button" onclick='sortStorageInventory("type")' data-translation="ui sort type"></div>
                         </div>
-                        <div id = "storage_category_buttons" class="activable_buttons">
+                        <div id = "storage_category_buttons" class="activable_buttons flex_wrap">
                             <div id = "storage_category_all" class = "storage_category_button active_selection_button" onclick='switchStorageItemVisibility()'>
                                 all
                             </div>
@@ -704,7 +704,7 @@
                     </div>
 
                     <div id = "crafting_window" class="crafting_window">
-                        <div id="crafting_mainpage_buttons" class="activable_buttons crafting_mainpage_buttons">
+                        <div id="crafting_mainpage_buttons" class="activable_buttons crafting_mainpage_buttons flex_wrap">
                             <div class="crafting_mainpage_button" data-crafting_category="crafting" onclick="switchCraftingRecipesPage('crafting')">Tinkering</div>
                             <div class="crafting_mainpage_button" data-crafting_category="butchering" onclick="switchCraftingRecipesPage('butchering')">Butchering</div>
                             <div class="crafting_mainpage_button" data-crafting_category="cooking" onclick="switchCraftingRecipesPage('cooking')">Cooking</div>
@@ -713,7 +713,7 @@
                             <div class="crafting_mainpage_button" data-crafting_category="forging" onclick="switchCraftingRecipesPage('forging')">Forging</div>
                             <div class="crafting_mainpage_button" data-crafting_category="alchemy" onclick="switchCraftingRecipesPage('alchemy')">Alchemy</div>
                         </div>
-                        <div id="crafting_subpage_buttons" class="crafting_subpage_buttons activable_buttons">
+                        <div id="crafting_subpage_buttons" class="crafting_subpage_buttons activable_buttons flex_wrap">
                             <div class="crafting_subpage_button active_selection_button" data-crafting_subcategory="items" onclick="switchCraftingRecipesSubpage('items')">Items/trinkets</div>
                             <div class="crafting_subpage_button" data-crafting_subcategory="components" onclick="switchCraftingRecipesSubpage('components')">Components</div>
                             <div class="crafting_subpage_button" data-crafting_subcategory="equipment" onclick="switchCraftingRecipesSubpage('equipment')">Equipment</div>
@@ -734,7 +734,7 @@
                                 <input type="checkbox" id="options_hide_max_level_skills" name="options_hide_max_level_skills" onclick = "option_hide_max_level_skills()">
                                 <label for="options_hide_max_level_skills">Hide max level skills</label>
                             </div>
-                            <div id="skill_sorting_buttons" class="activable_buttons">
+                            <div id="skill_sorting_buttons" class="activable_buttons flex_wrap">
                                 <div id="skill_sort_by_name" class="skill_sorting_button active_selection_button" onclick='sortSkills({sort_by:"name"})' .>
                                     Sort by name
                                 </div>
@@ -755,7 +755,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id = "skill_and_stance_control_div" class="activable_buttons">
+                    <div id = "skill_and_stance_control_div" class="activable_buttons flex_wrap">
                         <div id="show_skills" class="skill_stance_control_button active_selection_button" onclick="showSkills()">
                             Skills
                         </div>
@@ -769,7 +769,7 @@
                 </div>
 
                 <div id = "journal_div" class = "box_div">
-                    <div id = "journal_control_div" class="activable_buttons">
+                    <div id = "journal_control_div" class="activable_buttons flex_wrap">
                         <div id = "journal_show_quests" class = "journal_control_button active_selection_button" onclick = "showQuests()"> Quests </div>
                         <div id = "journal_show_bestiary" class = "journal_control_button" onclick = "showBestiary()"> Bestiary </div>
                         <div id = "journal_show_books" class = "journal_control_button" onclick = "showReadBooks()"> Anthology </div>
@@ -989,7 +989,7 @@
                             <div class = "equipment_slot_div" id = "fishing_slot"> fishing rod </div>
                         </div>
                     </div>
-                    <div id = "character_control_div" class="activable_buttons">
+                    <div id = "character_control_div" class="activable_buttons flex_wrap">
                         <div id = "character_show_stats" class = "character_control_button active_selection_button" onclick = "showCharacterStats()" data-translation="ui show stats"></div>
                         <div id = "character_show_stats" class = "character_control_button" onclick = "showCharacterBio()" data-translation="ui show bio"></div>
                         <div id = "character_show_equipment" class = "character_control_button" onclick = "showCharacterEquipment()" data-translation="ui show equipment"></div>
@@ -1672,6 +1672,7 @@
                         if(!tooltip) {
                             return;
                         }
+
                         const tooltip_height = tooltip.scrollHeight;
                         const tooltip_width = tooltip.scrollWidth;
 
@@ -1689,7 +1690,6 @@
                         } else {
                             document.documentElement.style.setProperty(left_variable, `${event.clientX + (left_side?-(tooltip.scrollWidth+tooltip_shift):tooltip_shift)}px`);
                         }
-
                         tooltip_wait = Date.now() + 1000 / tooltip_move_ticks;
                     }
                 }
@@ -1732,7 +1732,7 @@
                 const books_box_div = document.getElementById("books_box_div");
                 const character_bio_div = document.getElementById("character_bio_div");
                 const hero_race_selection = document.getElementById("hero_creation_panel_race_selection");
-                const hero_height_selection = document.getElementById("hero_creation_panel_height_selection");
+                const hero_height_selection = document.getElementById("height_selection");
                 const hero_race_div = document.getElementById("character_race_div");
                 const hero_height_div = document.getElementById("character_height_div");
 
@@ -1800,6 +1800,7 @@
                         element: hero_race_selection,
                         top_variable: "--race_choice_tooltip_top",
                         left_variable: "--race_choice_tooltip_left",
+                        
                     },
                 ];
 
@@ -1828,6 +1829,11 @@
                         element: location_name_div,
                         top_variable: '--location_desc_tooltip_top',
                         left_variable: '--location_desc_tooltip_left',
+                    },
+                    {
+                        element: hero_height_selection,
+                        top_variable: "--height_choice_tooltip_top",
+                        left_variable: "--height_choice_tooltip_left",
                     },
                     
                 ];
@@ -2038,10 +2044,9 @@
                 //for stuff where only 1 can be active
                 Array.from(document.getElementsByClassName("activable_buttons")).forEach(element => element.addEventListener("click", set_active_button));
                 function set_active_button(event) {
-                    //based on assumption none of them has child elements
-                    //alternatively just give all control buttons some attribute that could be then checked for?
                     const clicked_element = event.target;
-                    if(clicked_element.children.length == 0) {
+                    if(clicked_element.parentNode.classList.contains("activable_buttons")) {
+                        //additional verification that it's an element that's meant to be activated and not some child of it
                         for(let i = 0; i < clicked_element.parentNode.children.length; i++) {
                             clicked_element.parentNode.children[i].classList.remove("active_selection_button");
                         }
