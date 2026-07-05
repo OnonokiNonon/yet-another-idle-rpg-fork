@@ -644,42 +644,68 @@ const dialogues = {
 
 const racial = {
     "human name": "Human",
-    "human desc": "A basic common race, unique by it's lack of unique characteristics. Average in almost every aspect, yet powerful as a whole.",
-    "human gameplay desc": "Default experience.",
+    "human desc": "The most basic and common race, unique by it's lack of unique characteristics. Average in almost every aspect, yet powerful as a whole.",
 
     "cat name": "Nekomimi",
     "cat alt name": "Cat person",
-    "cat desc": "Nekomimi are a perfect blend of human and cat, equipped with greatest strengths of both. They have amazing grace and precision, "
+    "cat desc": "Nekomimi are a perfect blend of human and cat, equipped with some strengths of both. They have amazing grace and precision, "
                 +"being able to always keep their balance, which is further enhanced by their tails, while their ears provide them with very good hearing. They are also incredibly "
-                +"good at climbing. They are individualistic and whimsical, but can still function in a group if there's a need for it. "
+                +"good at climbing. On the downside, they are not very resistant to physical attacks. Nekomimi are also slightly shorter and more slender than humans. "
+                +"They have stronger preference for meat and fish than humans, but can still enjoy vegetables and fruits. "
+                +"Nekomimi are individualistic and whimsical, but can still function in a group if there's a need for it. "
                 +"They tend to be very proud, fully aware that their beauty and grace fascinates other races, similarly to elves, but unlike those, they are much easier to please. "
                 +"They make some of best dancers, spies, assassins.",
 
     "dog name": "Inumimi",
     "dog alt name": "Dog person",
-    "dog desc": "Inumimi are a perfect blend of human and dog, equipped with greatest strengths of both. They are agile and don't tire easily, but are somewhat vulnerable physically, "
-                +"and their magical abilities are on average quite low. They are good fighters and great swimmers. They are very social, always easily managing to cooperate with others.",
+    "dog desc": "Inumimi are a perfect blend of human and dog, equipped with some strengths of both. They are agile and don't tire easily, "
+                +"but their magical abilities are on average quite low. They are good fighters and great swimmers. "
+                +"Inumimi have similar stature to humans and similar dietary preferences. "
+                +"They are very social, always easily managing to cooperate with others, "
+                +"and they easily form new bonds.",
+   
+    "mouse name": "Nezumimi",
+    "mouse alt name": "Mouse person",
+    "mouse desc": "Nezumimi are a perfect blend of human and mouse, equipped with some strengths of both. They are on the smaller side and are very vulnerable physically, "
+                +"but they make up for this with their mix of cleverness and cautiousness, while their fantastic sense of smell helps them with finding interesting things (cheese included). "
+                +"Their eating habits are almost the same as those of humans, except for almost comical love for cheese. "
+                +"They have a reputation of being mischievious. Nezumimi also tend to have decent magical abilities. They are social beings, working well in groups.",
 
     "fox name": "Kitsunemimi",
     "fox alt name": "Fox person",
-    "fox desc": "",
-    "fox": "",
+    "fox desc": "Kitsunemimi are a perfect blend of human and fox, equipped with some strenghts of both. They are intelligent, cunning and agile, with some outstanding magical abilities, "
+                +"but are not very strong physically. They are of similar stature to humans, but are more slender. Their dietary preferences are very average, except for"
+                +"some strange fascination with fried tofu. Like nekomimi and elves, they have tendency to be very proud, making use of their beauty and grace.",
+
+    "lizard name": "Lizardkin",
+    "lizard desc": "Lizardkin are a blend of humans and lizards. They have large lizard tails and tend to have patches of scales on their bodies, usually on face and/or near their hands "
+                + "(unlike kemonomimi, who are limited to ears and tails). Heavy tails often affect their posture, causing a tendency to stand on slightly bent legs. "
+                + "They are rare in the mainland and cities, usually living in some far-off marshes and on coasts, where weather is warm and water is plentiful, in tight-knit communities. "
+                +" They are good swimmers and hunters, eating whatever they can catch or scavenge.",
 
     "elf name": "Elf",
-    "elf desc": "",
-    "elf gameplay desc": "",
+    "elf desc": "Old and proud race with long lifespans, slender figures, and love of nature. They have a strong tendency to perceive themselves as better than other races, "
+                +"and in many ways they are. Their physical strength is nothing special, but they balance it with good agility and fast reaction times, as well as high dexterity of "
+                +"movements. They are taller than humans, easily recognizable in crowd even from afar. Elven diet is centered on fruit and vegetables, with occasional fish, "
+                +"but they will eat regular meat if they need it to survive, though they might not enjoy the taste.",
 
     "half-elf name": "Half-elf",
-    "half-elf desc": "",
-    "half-elf gameplay desc": "",
+    "half-elf desc": "Beings born of unions between humans and elves, sharing strenghts of both their parents, though not as pronounced. They tend to be prideful, have long lives, "
+                    +"are stronger than elves and more agile than humans. They are not as tall as elves and their ears are not as sharp, making them harder to recognize at first glance. "
+                    +"Unlike elves, they view meat with much more favour, which sometimes earns them disappointment from their long-lived ancestors.",
 
     "dwarf name": "Dwarf",
-    "dwarf desc": "",
-    "dwarf gameplay desc": "",
+    "dwarf desc": "Old, proud, and jovial race with somewhat long lifespans, short stature, and great love for the underground. They are very short, very strong, and very resistant. " 
+                + "Not being very agile, they mainly rely on shields and armor in combat, with their hammers and axes famous for being masterfully smithed. "
+                + "Dwarves are omnivores, eating whatever they can hunt or grow in their caves with what little light can be provided, be it underground beasts, roots, or mushrooms, "
+                + "which is helped by their stomachs being as resilient as their entire bodies, allowing them to eat things that would cause a human to fall sick, as well as to drink "
+                + "questionable ammounts of alcohol.",
 
     "half-dwarf name": "Half-dwarf",
-    "half-dwarf desc": "",
-    "half-dwarf gameplay desc": "",
+    "half-dwarf desc": "Beings born of unions between humans and elves, sharing strengths of both their parents, though not as pronounced. They are strong and resistant, making great fighters and workers. "
+                    + "They are often ridiculed as neither parent race considers the other attractive, leading them to usually hide their heritage, "
+                    + "which is not especially hard, as they can easily pass for slightly shorter and slightly hairier pureblood humans. "
+                    + "Like dwarves, they are omnivorous, though they tend to have more human-like perception of what kinds of food are disgusting.",
 };
 
 const ui = {
@@ -696,8 +722,8 @@ const ui = {
     "ui tall": "Tall",
     "ui confirm": "Confirm",
     "ui race_default_label": "Default race",
-    "ui race_furless_label": "Furless races",
-    "ui race_kemonomimi_label": "Kemonomimi races",
+    "ui race_furless_label": "Humanoid races",
+    "ui race_kemonomimi_label": "Beastkin races",
     "ui sort name": "Sort by name",
     "ui sort value": "Sort by value",
     "ui sort type": "Sort by type",

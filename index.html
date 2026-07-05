@@ -97,13 +97,13 @@
                     <div id = "hero_creation_panel_race_default"> 
                         <div id = "race_default_label" class="race_label" data-translation="ui race_default_label"></div>
                     </div>
-                    <div id = "hero_creation_panel_race_furless"> 
+                    <div id = "hero_creation_panel_race_furless" class="race_selection_list"> 
                         <div id = "race_furless_label" class="race_label" data-translation="ui race_furless_label"></div>
                     </div>
-                    <div id = "hero_creation_panel_race_kemonomimi">
+                    <div id = "hero_creation_panel_race_kemonomimi" class="race_selection_list">
                         <div id = "race_kemonomimi_label" class="race_label" data-translation="ui race_kemonomimi_label"></div> </div>
                 </div>
-                <div id = "hero_creation_panel_confirmation_wrapper">
+                <div id = "hero_creation_panel_confirmation_wrapper" class="race_selection_list">
                     <div id = "hero_creation_panel_confirmation" data-translation="ui confirm">
                         
                     </div>
@@ -946,7 +946,15 @@
                         </div>
 
                         <div id = "character_bio_div">
-                            
+                            <div id="character_age_div" class="character_bio_entry">
+
+                            </div>
+                            <div id = "character_height_div" class="character_bio_entry">
+
+                            </div>
+                            <div id = "character_race_div" class = "character_bio_entry">
+
+                            </div>
                         </div>
                         
                         <div id = "character_equipment_div"> 
@@ -1028,6 +1036,7 @@
             <div id = "options_button" class = "game_info" onclick="openOptions()"><span><i class="material-icons">settings</i></span></div>
             <div id = "changelog_button" class = "game_info"><a href="changelog.html" target="_blank"></a></div>
             <div id = "help_button" class = "game_info"><a href="help.html" target="_blank"><i class="material-icons">help_outline</i></a></div>
+
             <div id = "repo_link" class = "repo_link" title="Check out the repository!"><a href="https://github.com/miktaew/yet-another-idle-rpg" target="_blank"><img src="resources\img\github-mark-white.png" style="height:32px" alt="GitHub icon"></a></div>
             <div id = "ko_fi_link" class = "financial_link" title="Support me on Ko-fi!"><a href="https://ko-fi.com/miktaew" target="_blank"><img src="resources/img/ko-fi_icon.png" style="height:40px" alt="Ko-fi icon"></a></div>
         </div>
@@ -1723,7 +1732,9 @@
                 const books_box_div = document.getElementById("books_box_div");
                 const character_bio_div = document.getElementById("character_bio_div");
                 const hero_race_selection = document.getElementById("hero_creation_panel_race_selection");
-
+                const hero_height_selection = document.getElementById("hero_creation_panel_height_selection");
+                const hero_race_div = document.getElementById("character_race_div");
+                const hero_height_div = document.getElementById("character_height_div");
 
                 const stats_div = document.getElementById("character_stats_div");
                 const bar_divs = document.getElementsByClassName("character_bar_tooltip");
@@ -1774,9 +1785,16 @@
                         left_side: true,
                     },
                     {
-                        element: character_bio_div,
+                        element: hero_race_div,
                         top_variable: "--character_race_tooltip_top",
                         left_variable: "--character_race_tooltip_left",
+                        target_classes: ["character_bio_entry"],
+                    },
+                    {
+                        element: hero_height_div,
+                        top_variable: "--character_height_tooltip_top",
+                        left_variable: "--character_height_tooltip_left",
+                        target_classes: ["character_bio_entry"],
                     },
                     {
                         element: hero_race_selection,

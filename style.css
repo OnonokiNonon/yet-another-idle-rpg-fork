@@ -74,6 +74,9 @@
     --character_race_tooltip_top: 0px;
     --character_race_tooltip_left: 0px;
 
+    --character_height_tooltip_top: 0px;
+    --character_height_tooltip_left: 0px;
+
 	--actions_div_height_default: 420px;
 	--actions_div_height_combat: 120px;
 	--actions_div_height: var(--actions_div_height_default);
@@ -143,6 +146,14 @@ input[type=checkbox], input[type=radio] {
 
 .italic {
 	font-style: italic;
+}
+
+#hits_counter {
+    height: 28px;
+    padding: 6px;
+    right: 80px;
+    bottom: 0px;
+	position: fixed;
 }
 
 #loading_screen {
@@ -316,6 +327,7 @@ input[type=checkbox], input[type=radio] {
     }
 
         .race_label {
+            padding-top: 5px;
             text-align: center;
         }
         
@@ -359,6 +371,11 @@ input[type=checkbox], input[type=radio] {
                     min-width: 150px;
                     width: max-content;
                 }
+            .race_selection_list {
+                overflow-y: scroll;
+                overflow-x: hidden;
+                max-height: 320px;
+            }
 
     #hero_creation_panel_confirmation_wrapper {
         width: 100%;
@@ -817,7 +834,7 @@ input[type=checkbox], input[type=radio] {
 	width: fit-content;
 }
 
-.item_tooltip, .job_tooltip, .location_tooltip, .recipe_tooltip, #export_button_tooltip, .race_choice_tooltip, .character_race_tooltip {
+.item_tooltip, .job_tooltip, .location_tooltip, .recipe_tooltip, #export_button_tooltip, .race_choice_tooltip, .character_race_tooltip, .character_height_tooltip {
 	display: none;
 	text-align: left;
 	color: white;
@@ -1967,13 +1984,25 @@ i {
     border: 2px solid gray;
     padding: 4px;
 }
-    .character_race_div:hover .character_race_tooltip {
+    #character_race_div:hover .character_race_tooltip {
         display: block;
     }
     .character_race_tooltip {
         display: none;
         top: var(--character_race_tooltip_top);
         left: var(--character_race_tooltip_left);
+        max-width: 480px;
+        min-width: 150px;
+        width: max-content;
+    }
+
+    #character_height_div:hover .character_height_tooltip {
+        display: block;
+    }
+    .character_height_tooltip {
+        display: none;
+        top: var(--character_height_tooltip_top);
+        left: var(--character_height_tooltip_left);
         max-width: 480px;
         min-width: 150px;
         width: max-content;

@@ -11,6 +11,26 @@ const height_values = {
     "very tall": 190,
 };
 
+
+//for relative heights selected in hero creation
+const height_stats = {
+    short: {
+        strength: {multiplier: 0.9},
+        max_health: {multiplier: 0.9},
+        agility: {multiplier: 1.1},
+        stamina_efficiency: {multiplier: 1.1},
+    },
+    average: {
+        //too average to have anything
+    },
+    tall: {
+        strength: {multiplier: 1.1},
+        max_health: {multiplier: 1.1},
+        agility: {multiplier: 0.9},
+        stamina_efficiency: {multiplier: 0.9},
+    }
+}
+
 class Person extends InventoryHaver {
     constructor(data = {}){
         super(data);
@@ -26,7 +46,6 @@ class Person extends InventoryHaver {
     }
 
     getUniversalHeight()  {
-        
         const height = this.getNumericalHeight();
         if(height >= height_values["very tall"]) {
             return "very tall";
@@ -44,5 +63,6 @@ class Person extends InventoryHaver {
 
 
 export {
-    Person
+    Person,
+    height_stats, height_values
 }

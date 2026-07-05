@@ -100,6 +100,7 @@ import { end_activity_animation,
          set_light_based_background_color,
          unassign_dynamic_loot_message,
          fill_character_bio,
+         insert_HTML,
         } from "./display.js";
 import { compare_game_version, crafting_tags_to_skills, get_component_name, get_hit_chance, is_a_older_than_b, get_item_mapping, random_range, skill_consumable_tags, rtp } from "./misc.js";
 import { stances } from "./combat_stances.js";
@@ -114,13 +115,12 @@ import { get_current_temperature_smoothed, is_raining } from "./weather.js";
 import { Pathfinder, speed_modifiers_from_skills } from "./pathfinding.js";
 import { translationManager } from "./translation.js";
 import { characterCreator } from "./character_creation.js";
+import { config } from "./config.js";
 
 const save_key = "save data";
 const dev_save_key = "dev save data";
 const backup_key = "backup save";
 const dev_backup_key = "dev backup save";
-
-const do_hero_creation = true;
 
 const global_flags = {
     is_gathering_unlocked: false,
@@ -159,15 +159,8 @@ let total_hits_taken = 0;
 let strongest_hit = 0;
 let gathered_materials = {};
 
-//
-const trade_price_recovery_flat = 5;//
-const trade_price_recovery_ratio = 1/360; //
-//larger of two (sold count * ratio or flat value)
-const market_saturation_trickle_rate = 0.2;
-
 //keeping the time to use it for export bonus
 let last_rewarded_export = 0;
-const time_between_export_rewards = 1000*60*60*20; //1000 miliseconds -> 1s, x60 -> 1m, x60 -> 1h, x20 -> 20h
 
 //temperature
 let current_temperature = 20;
@@ -229,12 +222,14 @@ let last_combat_location = null;
 let is_reading = null;
 
 //ticks between saves, 60 = ~1 minute
-let save_period = 60;
+const save_period = 60;
 let save_counter = 0;
 
-//ticks between saves, 60 = ~1 minute
-let backup_period = 3600;
+//ticks between backup saves, 60 = ~1 minute
+const backup_period = 3600;
 let backup_counter = 0;
+
+const tickrate = config.tickrate;
 
 //accumulates deviations
 let time_variance_accumulator = 0;
@@ -256,12 +251,6 @@ const favourite_consumables = {};
 
 const favourite_items = {};
 //items to be displayed with "show faves" option in inventory
-
-const tickrate = 1;
-//how many ticks per second
-//1 is the default value; going too high might make the game unstable
-
-const global_xp_multiplier = 1;
 
 //stuff from options panel
 const game_options = {
@@ -296,10 +285,6 @@ let message_log_filters = {
     crafting: true,
     background: true,
 };
-
-//enemy crit stats
-const enemy_crit_chance = 0.1;
-const enemy_crit_damage = 2; //multiplier, not a flat bonus
 
 //holds the stack of dialogues/textlines and actions/activities
 const content_stack = [];
@@ -1730,8 +1715,8 @@ function do_enemy_combat_action(enemy_id) {
     }
 
     total_hits_taken++;
-    if(enemy_crit_chance > Math.random()){
-        damages_dealt = damages_dealt.map(val => val*enemy_crit_damage);
+    if(config.enemy_crit_chance > Math.random()){
+        damages_dealt = damages_dealt.map(val => val*config.enemy_crit_damage);
         critted = true;
         total_crits_taken++;
     }
@@ -1976,7 +1961,7 @@ function add_xp_to_skill({skill, xp_to_add = 1, should_info = true, use_bonus = 
     }
 
     if(use_bonus) {
-        xp_to_add = xp_to_add * global_xp_multiplier * get_skill_xp_gain(skill.skill_id);
+        xp_to_add = xp_to_add * config.global_xp_multiplier * get_skill_xp_gain(skill.skill_id);
 
         if(skill.parent_skill) {
             xp_to_add *= skill.get_parent_xp_multiplier();
@@ -3384,7 +3369,10 @@ function get_date() {
 }
 
 function is_on_dev() {
-    return window.location.href.endsWith("-dev/");
+    return window.location.href === "https://miktaew.github.io/yet-another-idle-rpg-dev/";
+}
+function is_on_main() {
+    return window.location.href === "https://miktaew.github.io/yet-another-idle-rpg/";
 }
 
 function is_JSON(str) {
@@ -3685,7 +3673,7 @@ function create_save() {
  * @returns save string encoded to base64
  */
 function save_to_file() {
-    if(Date.now() - last_rewarded_export > time_between_export_rewards) {
+    if(Date.now() - last_rewarded_export > config.time_between_export_rewards) {
         last_rewarded_export = Date.now();
         give_export_reward();
     }
@@ -5306,18 +5294,18 @@ function update() {
         const prev_day = current_game_time.day;
         update_timer();
 
-        if(start_date - last_rewarded_export > time_between_export_rewards) {
+        if(start_date - last_rewarded_export > config.time_between_export_rewards) {
             document.getElementById("save_to_file_button").classList.add("export_button_with_reward");
         } else {
             document.getElementById("save_to_file_button").classList.remove("export_button_with_reward");
         }
 
-        update_export_button_tooltip(start_date - last_rewarded_export, time_between_export_rewards);
+        update_export_button_tooltip(start_date - last_rewarded_export, config.time_between_export_rewards);
 
         const curr_day = current_game_time.day;
         if(curr_day > prev_day) {
-            recover_item_prices(trade_price_recovery_flat, trade_price_recovery_ratio);
-            trickle_market_saturations(market_saturation_trickle_rate);
+            recover_item_prices(config.trade_price_recovery_flat, config.trade_price_recovery_ratio);
+            trickle_market_saturations(config.market_saturation_trickle_rate);
             if(is_in_trade()) {
                 //update displayed prices due to recovery
                 update_displayed_character_inventory({is_trade: true});
@@ -5899,7 +5887,7 @@ if(!is_loading_error) {
 
 play_button.addEventListener("click", hide_loading_screen);
 
-if(!global_flags.is_hero_created && do_hero_creation) {
+if(!global_flags.is_hero_created && config.do_hero_creation) {
     characterCreator.fill_creation_panel();
     //run is triggered from confirming hero creation
 } else {
@@ -5907,9 +5895,13 @@ if(!global_flags.is_hero_created && do_hero_creation) {
     characterCreator.remove_creation_panel();
 }
 
-character.stats.add_race_bonus();
+if(config.use_racial_bonuses) {
+    character.stats.add_race_bonus();
+}
 
-
+if(config.use_height_bonuses) {
+    character.stats.add_height_bonus();
+}
 
 function add_stuff_for_testing() {
     const items = [];
@@ -5980,6 +5972,22 @@ if(is_on_dev()) {
     }
 }
 
+if(is_on_dev()) {
+    insert_HTML(
+        document.getElementById("bottom_panel_div"), 
+        `<img id = "hits_counter" src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fmiktaew.github.io%2Fyet-another-idle-rpg-dev%2F&label=Visitors&color=%23084298&message=&style=flat&tz=UTC">`
+    );
+} else if(is_on_main()) {
+    insert_HTML(
+        document.getElementById("bottom_panel_div"), 
+        `<img id = "hits_counter" src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fmiktaew.github.io%2Fyet-another-idle-rpg%2F&label=Visitors&color=%23084298&message=&style=flat&tz=UTC">`
+    );
+} else {
+    insert_HTML(
+        document.getElementById("bottom_panel_div"), 
+        `<img id = "hits_counter" src="https://hitscounter.dev/api/hit?label=dummy+hit+counter&color=%23084298&message=&style=flat&tz=UTC">`
+    );
+}
 export { current_enemies,
         current_location,
         can_work, active_effects,

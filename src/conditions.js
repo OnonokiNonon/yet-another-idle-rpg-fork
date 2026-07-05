@@ -3,6 +3,7 @@
 import { get_total_skill_level } from "./character.js";
 import { current_game_time } from "./game_time.js";
 import { global_flags } from "./main.js";
+import { height_values } from "./person.js";
 
 /*
     either single set of values or two sets, one for minimum chance provided and one for maximum
@@ -45,6 +46,18 @@ import { global_flags } from "./main.js";
         }
 
         flags: [String] //global flags required
+
+        relative_height: { //short / average / tall, relative to race
+            at_least: String
+            exactly: String
+            at_most: String
+        }
+
+        universal_height: { //very short / short / average / tall / very tall
+            at_least: String
+            exactly: String
+            at_most: String
+        }
     }
 */
 
@@ -172,6 +185,42 @@ const process_conditions = (conditions, character) => {
             if(!global_flags[conditions[0].flags[i]]) {
                 met = 0;
                 break;
+            }
+        }
+    }
+
+    if(conditions[0].relative_height) {
+        if(conditions[0].relative_height.at_least) {
+            if(height_values[conditions[0].relative_height.at_least] < height_values[character.personal.height]) {
+                met = 0;
+            }
+        }
+        if(conditions[0].relative_height.exactly) {
+            if(conditions[0].relative_height.at_least !== character.personal.height) {
+                met = 0;
+            }
+        }
+        if(conditions[0].relative_height.at_most) {
+            if(height_values[conditions[0].relative_height.at_most] > height_values[character.personal.height]) {
+                met = 0;
+            }
+        }
+    }
+
+    if(conditions[0].universal_height) {
+        if(conditions[0].universal_height.at_least) {
+            if(height_values[conditions[0].universal_height.at_least] < character.getNumericalHeight()) {
+                met = 0;
+            }
+        }
+        if(conditions[0].relative_height.exactly) {
+            if(height_values[conditions[0].universal_height.exactly] !== character.getNumericalHeight()) {
+                met = 0;
+            }
+        }
+        if(conditions[0].universal_height.at_most) {
+            if(height_values[conditions[0].universal_height.at_most] > character.getNumericalHeight()) {
+                met = 0;
             }
         }
     }

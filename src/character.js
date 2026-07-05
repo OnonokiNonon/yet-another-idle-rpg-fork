@@ -14,8 +14,9 @@ import { active_effects, current_location, current_stance, favourite_consumables
 import { current_game_time, is_night } from "./game_time.js";
 import { getItemFromKey, item_templates, item_log } from "./items.js";
 import { skill_consumable_tags } from "./misc.js";
-import { Person } from "./person.js";
+import { height_stats, Person } from "./person.js";
 import { playable_races } from "./races.js";
+import { config } from "./config.js";
 
 const base_block_chance = 0.75; //+20 from the skill
 const base_xp_cost = 10;
@@ -87,6 +88,7 @@ class Hero extends Person {
                     total_multiplier: {},
                     flat: {
                             race: {},
+                            height: {},
                             level: {},
                             skills: {},
                             equipment: {},
@@ -97,6 +99,7 @@ class Hero extends Person {
                     },
                     multiplier: {
                             race: {},
+                            height: {},
                             skills: {},
                             skill_milestones: {},
                             equipment: {},
@@ -265,9 +268,13 @@ class Hero extends Person {
 const character = new Hero();
 
 /**
- * adds race milestone bonuses to character stats
+ * adds race bonuses to character stats
  */
 character.stats.add_race_bonus = function () {
+    if(!config.use_racial_bonuses) {
+        console.warn("Tried to add racial bonuses but they are disabled");
+        return;
+    }
     const stats = playable_races[character.race].stats;
     const xp_multipliers = playable_races[character.race].xp_multipliers;
     Object.keys(stats).forEach(stat => {
@@ -298,6 +305,26 @@ character.stats.add_race_bonus = function () {
         const cat = "category_"+category;
         if(xp_multipliers[cat]) {
             character.xp_bonuses.multiplier.race[cat] = (character.xp_bonuses.multiplier.race[cat] || 1) * xp_multipliers[cat];
+        }
+    });
+}
+
+/**
+ * adds height bonuses to character stats
+ */
+character.stats.add_height_bonus = function () {
+    if(!config.use_height_bonuses) {
+        console.warn("Tried to add height bonuses but they are disabled");
+        return;
+    }
+    const stats = height_stats[character.personal.height] || {};
+
+    Object.keys(stats).forEach(stat => {
+        if(stats[stat].flat) {
+            character.stats.flat.height[stat] = (character.stats.flat.height[stat] || 0) + stats[stat].flat;
+        }
+        if(stats[stat].multiplier) {
+            character.stats.multiplier.height[stat] = (character.stats.multiplier.height[stat] || 1) * stats[stat].multiplier;
         }
     });
 }

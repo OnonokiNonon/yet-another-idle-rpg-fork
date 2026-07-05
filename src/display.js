@@ -34,6 +34,8 @@ import { get_game_version } from "./game_version.js";
 import { process_conditions } from "./conditions.js";
 import { translationManager } from "./translation.js";
 import { playable_races } from "./races.js";
+import { config } from "./config.js";
+import { height_stats } from "./person.js";
 let activity_anim; //for the activity and gameAction animation interval
 
 let location_choice_divs = {}; //for dropdowns
@@ -5431,26 +5433,20 @@ function change_completed_quest_visibility() {
 }
 
 function fill_character_bio() {
-    const bio = document.getElementById("character_bio_div");
-
-    const age_div = document.createElement("div");
+    const age_div = document.getElementById("character_age_div");
     age_div.innerText = translationManager.getText(language, "age") + ": "+ translationManager.getText(language, character.personal.age);
-    age_div.classList.add("character_bio_entry");
 
-    const height_div = document.createElement("div");
+    const height_div = document.getElementById("character_height_div");
     height_div.innerText = translationManager.getText(language, "height") + ": "+ translationManager.getText(language, character.personal.height);
-    height_div.classList.add("character_bio_entry");
 
-    const race_div = document.createElement("div");
+    if(config.use_height_bonuses && Object.keys(height_stats[character.personal.height]).length > 0) {
+        height_div.appendChild(create_height_tooltip(height_stats[character.personal.height], "character_height_tooltip"));
+    }
+
+    const race_div = document.getElementById("character_race_div");
     race_div.innerText = translationManager.getText(language, "race") + ": "+ translationManager.getText(language, playable_races[character.personal.race].name);
-    race_div.classList.add("character_bio_entry", "character_race_div");
 
     race_div.appendChild(create_race_tooltip(playable_races[character.personal.race], "character_race_tooltip"));
-
-    bio.appendChild(age_div);
-    bio.appendChild(height_div);
-    bio.appendChild(race_div);
-
 }
 
 function create_race_tooltip(race, css_class) {
@@ -5464,16 +5460,18 @@ function create_race_tooltip(race, css_class) {
         tooltip_content += "\n\n" + translationManager.getText(language, race.gameplay_description);
     }
 
-    if(Object.keys(race.stats).length > 0) {
-        tooltip_content += `\n`;
-    }
-
-    Object.keys(race.stats).forEach(effect_key => {
-        if(race.stats[effect_key].multiplier != null) {
-            tooltip_content +=
-        `\n${capitalize_first_letter(translationManager.getText(language, effect_key+" long"))}: x${race.stats[effect_key].multiplier}`;
+    if(config.use_racial_bonuses) {
+        if(Object.keys(race.stats).length > 0) {
+            tooltip_content += `\n`;
         }
-    });
+
+        Object.keys(race.stats).forEach(effect_key => {
+            if(race.stats[effect_key].multiplier != null) {
+                tooltip_content +=
+            `\n${capitalize_first_letter(translationManager.getText(language, effect_key+" long"))}: x${race.stats[effect_key].multiplier}`;
+            }
+        });
+    }
 
     /*
     if(Object.keys(race.stats).length !== 0 && Object.keys(race.xp_multipliers).length !== 0) {
@@ -5489,6 +5487,23 @@ function create_race_tooltip(race, css_class) {
     */
     tooltip.innerText = tooltip_content;
             
+
+    return tooltip;
+}
+
+function create_height_tooltip(stats, css_class) {
+    const tooltip = document.createElement("div");
+    tooltip.classList.add(css_class);
+
+    let tooltip_content = "";
+    Object.keys(stats).forEach(effect_key => {
+        if(stats[effect_key].multiplier != null) {
+            tooltip_content +=
+        `${capitalize_first_letter(translationManager.getText(language, effect_key+" long"))}: x${stats[effect_key].multiplier}\n`;
+        }
+    });
+    
+    tooltip.innerText = tooltip_content;
 
     return tooltip;
 }
@@ -5789,5 +5804,6 @@ export {
     set_HTML,
     set_light_based_background_color,
     unassign_dynamic_loot_message,
-    fill_character_bio, create_race_tooltip
+    fill_character_bio, create_race_tooltip,
+    insert_HTML
 }
