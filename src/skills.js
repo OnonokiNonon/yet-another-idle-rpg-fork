@@ -44,6 +44,7 @@ class Skill {
                   is_unlocked = true,
                   category,
                   get_stat_modifiers = () => {return {}},
+                  parent_multiplier = 1.1,
                 }) 
     {
         if(skill_id === "all" || skill_id === "hero" || skill_id === "all_skill") {
@@ -96,6 +97,8 @@ class Skill {
 
         this.get_stat_modifiers = get_stat_modifiers;
         //refer to how it's used in "Pest killer"/"Giant slayer"
+
+        this.parent_multiplier = parent_multiplier; //used only in parent skills, ignored otherwise; multiplier to xp per level of difference with parent
     }
 
     name() {
@@ -300,7 +303,8 @@ class Skill {
     }
     get_parent_xp_multiplier() {
         if(this.parent_skill) {
-            return (1.1**Math.max(0,skills[this.parent_skill].current_level-this.current_level));
+            const parent_skill = skills[this.parent_skill];
+            return (parent_skill.parent_multiplier**Math.max(0,parent_skill.current_level-this.current_level));
         } else {
             return 1;
         }
@@ -758,8 +762,8 @@ Adds ${skills["Unarmed"].current_level/10} base damage to unarmed attacks`;
                                     base_xp_cost: 60,
                                     category: "Stance",
                                     max_level: 30,
-                                    get_effect_description: ()=> {
-                                        return `Increases xp gains of all combat stance skills of level lower than this, x1.1 per level of difference`;
+                                    get_effect_description: function() {
+                                        return `Increases xp gains of all combat stance skills of level lower than this, x${this.parent_multiplier} per level of difference`;
                                     },
                                 });
     skills["Quick steps"] = new Skill({
@@ -1330,8 +1334,8 @@ Adds ${skills["Unarmed"].current_level/10} base damage to unarmed attacks`;
                                     names: {0: "Weapon proficiency", 15: "Weapon mastery"}, 
                                     description: "Knowledge of all weapons",
                                     category: "Weapon",
-                                    get_effect_description: ()=> {
-                                        return `Increases xp gains of all weapon skills of level lower than this, x1.1 per level of difference`;
+                                    get_effect_description: function() {
+                                        return `Increases xp gains of all weapon skills of level lower than this, x${this.parent_multiplier} per level of difference`;
                                     },
                                 });
     skills["Swords"] = new Skill({
@@ -2345,8 +2349,22 @@ Multiplies AP with daggers by ${Math.round((get_total_skill_coefficient({skill_i
 
 //resource gathering related
 (function(){
+    skills["Gathering mastery"] = new Skill({
+        names: {0: "Beginner gatherer", 10: "Apprentice gatherer", 25: "Adept gatherer", 35: "Expert gatherer", 50: "Master gatherer"}, 
+        description: "Knowledge on how to gather all the kinds of resources. "
+                    +"While each of them is seemingly gathered in a completely different way, with enough practice you being to see some commonalities.",
+        base_xp_cost: 10,
+        xp_scaling: 1.6,
+        visibility_treshold: 4,
+        parent_multiplier: 1.05,
+        category: "Gathering",
+        get_effect_description: function() {
+            return `Increases xp gains of all gathering skills of level lower than this, x${this.parent_multiplier} per level of difference`;
+        },
+    });
     skills["Woodcutting"] = new Skill({
-        names: {0: "Woodcutting"}, 
+        names: {0: "Woodcutting"},
+        parent_skill: "Gathering mastery",
         description: "Get better with chopping the wood and recognizing useful trees",
         category: "Gathering",
         base_xp_cost: 10,
@@ -2355,7 +2373,8 @@ Multiplies AP with daggers by ${Math.round((get_total_skill_coefficient({skill_i
     });
 
     skills["Mining"] = new Skill({
-        names: {0: "Mining"}, 
+        names: {0: "Mining"},
+        parent_skill: "Gathering mastery",
         description: "Get better with mining for ore and stone",
         category: "Gathering",
         base_xp_cost: 10,
@@ -2364,7 +2383,8 @@ Multiplies AP with daggers by ${Math.round((get_total_skill_coefficient({skill_i
     });
 
     skills["Digging"] = new Skill({
-        names: {0: "Digging"}, 
+        names: {0: "Digging"},
+        parent_skill: "Gathering mastery",
         description: "Get better with swinging the shovel",
         category: "Gathering",
         base_xp_cost: 10,
@@ -2373,7 +2393,8 @@ Multiplies AP with daggers by ${Math.round((get_total_skill_coefficient({skill_i
     });
 
     skills["Herbalism"] = new Skill({
-        names: {0: "Herbalism"}, 
+        names: {0: "Herbalism"},
+        parent_skill: "Gathering mastery",
         description: "Knowledge of useful plants and mushrooms",
         category: "Gathering",
         base_xp_cost: 10,
@@ -2382,7 +2403,8 @@ Multiplies AP with daggers by ${Math.round((get_total_skill_coefficient({skill_i
     });
 
     skills["Animal handling"] = new Skill({
-        names: {0: "Animal handling"}, 
+        names: {0: "Animal handling"},
+        parent_skill: "Gathering mastery",
         description: "Knowledge and skills required to deal with a wide variety of animals",
         category: "Gathering",
         base_xp_cost: 10,
@@ -2391,7 +2413,8 @@ Multiplies AP with daggers by ${Math.round((get_total_skill_coefficient({skill_i
     });
 
     skills["Fishing"] = new Skill({
-        names: {0: "Fishing"}, 
+        names: {0: "Fishing"},
+        parent_skill: "Gathering mastery",
         description: "Get better at luring all kinds of fish",
         category: "Gathering",
         base_xp_cost: 10,
