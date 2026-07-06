@@ -1872,11 +1872,13 @@
                 });
 
                 elements_with_unrestricted_tooltips.forEach(entry => {
-                    entry.element.addEventListener('mousemove', (event) => move_unrestricted_tooltip({
-                            event, 
-                            ...entry,
-                        }
-                    ));
+                    if(entry.element) {
+                        entry.element.addEventListener('mousemove', (event) => move_unrestricted_tooltip({
+                                event, 
+                                ...entry,
+                            }
+                        ));
+                    }
                 });
 
                 //active effects tooltip, a bit more complicated so can't be handled by main tooltip function yet

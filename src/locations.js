@@ -951,6 +951,7 @@ function get_location_type_penalty(type, stage, stat, category) {
         description: "",
         enemy_count: 40,
         enemies_list: ["Huge dragonfly"],
+        types: [{type: "narrow", stage: 1, xp_gain: 4}],
         enemy_groups_list: [{enemies: ["Dragonfly queen", "Huge dragonfly", "Huge dragonfly", "Huge dragonfly", "Huge dragonfly", "Huge dragonfly"]}],
         predefined_lineup_on_nth_group: 5,
         enemy_group_size: [6,6],

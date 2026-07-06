@@ -4,6 +4,7 @@ import { get_total_skill_level } from "./character.js";
 import { current_game_time } from "./game_time.js";
 import { global_flags } from "./main.js";
 import { height_values } from "./person.js";
+import { playable_races } from "./races.js";
 
 /*
     either single set of values or two sets, one for minimum chance provided and one for maximum
@@ -57,6 +58,12 @@ import { height_values } from "./person.js";
             at_least: String
             exactly: String
             at_most: String
+        }
+
+        race: String
+        race_type: {
+            any: [String],
+            all: [String]
         }
     }
 */
@@ -223,6 +230,32 @@ const process_conditions = (conditions, character) => {
                 met = 0;
             }
         }
+    }
+
+    if(conditions[0].race) {
+        if(character.personal.race !== conditions[0].race) {
+            met = 0;
+        }
+    }
+
+    if(conditions[0].race_type) {
+        const race = playable_races[character.personal.race];
+        let is_any_met = false;
+        Object.keys(conditions[0].race_type.any || {}).forEach(race_type => {
+            if(race.tags[race_type]) {
+                is_any_met = true;
+            }
+        });
+
+        if(!is_any_met) {
+            met = 0;
+        }
+
+        Object.keys(conditions[0].race_type.all || {}).forEach(race_type => {
+            if(!race.tags[race_type]) {
+                met = 0;
+            }
+        });
     }
 
     return met;
